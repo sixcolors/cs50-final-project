@@ -23,13 +23,13 @@ The user can also search for a location using the search input. The app will use
 
 #### Design Decisions
 
-I chose to use Svelte for this project because I wanted to learn a new framework. I chose Svelte because it is a compiler and not a framework. I also chose Svelte because it is lightweight and fast.
+I chose to use Svelte for this project because I wanted to learn a new framework. I chose Svelte because it is a compiled, lightweight and fast. It also has a reputation for being fun to use.
 
-I chose to use TypeScript for this project because I wanted to practice using TypeScript. I have more experiance developing web application using JavaScript and I wanted to try something new.
+I chose to use TypeScript for this project because I wanted to practice using TypeScript. I have more experiance developing web application using JavaScript.
 
 I chose to use Leaflet for the map because it is lightweight and easy to use. I also chose Leaflet because it is open source and has a large community.
 
-I chose to use OpenStreetMap for the map tiles because it is open source and has a large community and it's free.
+I chose to use OpenStreetMap for the map tiles because it is open source, has a large community and it's free.
 
 I chose to use the NRCAN Open Data API because it is free and has a large amount of data, including the current wildfires in Canada.
 
