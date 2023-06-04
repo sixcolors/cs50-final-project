@@ -27,6 +27,33 @@
     };
 
     onMount(() => {
+        const wmsFireDangerTileLayerOptions: L.TileLayerOptions = {
+            layers: "fdr_current",
+            format: "image/png",
+            transparent: true,
+            opacity: 0.8,
+            legend: "true",
+            tms: true,
+            attribution:
+                "Canadian Forest Service. 2022. Canadian Wildland Fire Information System (CWFIS), Natural Resources Canada, Canadian Forest Service, Northern Forestry Centre, Edmonton, Alberta. https://cwfis.cfs.nrcan.gc.ca.",
+        };
+        let wmsFireDangerTileLayer: L.TileLayer.WMS = L.tileLayer.wms(
+            wmsFireTileUrl,
+            wmsFireDangerTileLayerOptions
+        );
+
+        let mapLegend: L.LegengControl = L.control
+            .layers(
+                {},
+                {
+                    "Fire Danger": wmsFireDangerTileLayer,
+                },
+                {
+                    position: "topright",
+                }
+            )
+            .addTo(map.getMap());
+
         // download data
         fetch(
             "https://cwfis.cfs.nrcan.gc.ca/downloads/activefires/activefires.csv"
@@ -61,35 +88,41 @@
                     })
                     .filter((fire) => fire !== undefined);
 
-
                 // get location from browser
                 let userLocation: number[] | undefined;
-                navigator.geolocation.getCurrentPosition((position) => {
-                    mapOptions.center = [
-                        position.coords.latitude,
-                        position.coords.longitude,
-                    ];
-                    mapOptions.zoom = 8;
-                    mapOptions = { ...mapOptions };
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        mapOptions.center = [
+                            position.coords.latitude,
+                            position.coords.longitude,
+                        ];
+                        mapOptions.zoom = 8;
+                        mapOptions = { ...mapOptions };
 
-                    map.getMap().setView(mapOptions.center, mapOptions.zoom);
+                        map.getMap().setView(
+                            mapOptions.center,
+                            mapOptions.zoom
+                        );
 
-                    userLocation = [
-                        position.coords.latitude,
-                        position.coords.longitude,
-                    ];
+                        userLocation = [
+                            position.coords.latitude,
+                            position.coords.longitude,
+                        ];
 
-                    var circle = L.circle(userLocation, {
-                        color: "white",
-                        fillColor: "#ddd",
-                        fillOpacity: 0.5,
-                        radius: 10000,
-                    }).addTo(map.getMap());
-                    
-                    addMarkers();
-                }, (error) => { 
-                    console.log(error);
-                    addMarkers() });
+                        var circle = L.circle(userLocation, {
+                            color: "white",
+                            fillColor: "#ddd",
+                            fillOpacity: 0.5,
+                            radius: 10000,
+                        }).addTo(map.getMap());
+
+                        addMarkers();
+                    },
+                    (error) => {
+                        console.log(error);
+                        addMarkers();
+                    }
+                );
 
                 const addMarkers = () => {
                     // add markers
@@ -104,7 +137,7 @@
                             );
                         }
                         // if (distance < 100000) {
-                        let stageOfControl : string;
+                        let stageOfControl: string;
                         //Possible values for stage of control include: OC (Out of Control), BH (Being Held), UC (Under Control), EX (Out).
                         switch (fire.stage_of_control) {
                             case "OC":
@@ -126,7 +159,13 @@
                         var marker = L.marker([fire.lat, fire.lon])
                             .bindPopup(
                                 `<h4>Wildfire ${fire.firename}</h4>
-                                ${ typeof(distance) === 'number' ? `<p>${Math.round(distance / 1000)} km your reported location.</p>` : "" }
+                                ${
+                                    typeof distance === "number"
+                                        ? `<p>${Math.round(
+                                              distance / 1000
+                                          )} km your reported location.</p>`
+                                        : ""
+                                }
                                 <p>Started on ${fire.startdate}<br>
                                 ${fire.agency.toUpperCase()} is in charge<br>
                                 ${fire.hectares} hectares burned<br>
@@ -142,7 +181,7 @@
             });
     });
 
-    const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
     // const tileUrl = darkMode ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     const tileLayerOptions: L.TileLayerOptions = {
         minZoom: 0,
@@ -161,6 +200,7 @@
 
     const wmsFireTileUrl =
         "https://cwfis.cfs.nrcan.gc.ca/geoserver/public/wms?";
+
     const wmsFireTileLayerOptions: L.TileLayerOptions = {
         layers: "m3_polygons_current,activefires_current",
         format: "image/png",
@@ -176,8 +216,8 @@
     let wmsFireTileLayer: L.TileLayer.WMS;
 
     function onLocationFound(event) {
-		map.getMap().setView([event.detail.lat, event.detail.lon], 8);
-	}
+        map.getMap().setView([event.detail.lat, event.detail.lon], 8);
+    }
 </script>
 
 <Locator on:locationFound={onLocationFound} />
@@ -209,6 +249,9 @@
         width: calc(100% - 2rem);
         margin-top: 1rem;
         padding: 1rem;
-        height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 3rem);
+        height: calc(
+            100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) -
+                3rem
+        );
     }
 </style>
