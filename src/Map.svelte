@@ -32,7 +32,9 @@
 
     let fireMarkerLayerGroup: L.LayerGroup;
 
-    const addMarkers = function (fires: Fire[]) {
+    // addMarkers adds markers to the fireMarkerLayerGroup
+    // old markers are cleared first
+    function addMarkers(fires: Fire[]) {
         firesNearYou = userLocation !== undefined ? 0 : -1;
         fireMarkerLayerGroup.clearLayers();
 
@@ -89,7 +91,9 @@
         lastRefreshed = new Date();
     };
 
+    // Called when svelte component is mounted
     onMount(() => {
+        // add layer that is not shown by default
         const wmsFireDangerTileLayerOptions: L.TileLayerOptions = {
             layers: "fdr_current",
             format: "image/png",
@@ -105,6 +109,7 @@
             wmsFireDangerTileLayerOptions
         );
 
+        // add layer control
         const mapLegend: L.LegengControl = L.control
             .layers(
                 {},
@@ -119,7 +124,7 @@
 
         fireMarkerLayerGroup = L.layerGroup().addTo(map.getMap());
 
-        // download data
+        // download wildfire data
         fetch(
             "https://cwfis.cfs.nrcan.gc.ca/downloads/activefires/activefires.csv"
         )
@@ -189,6 +194,8 @@
                         addMarkers(fires);
                     },
                     (error) => {
+                        // we don't have permission to get location
+                        // or location services are turned off, etc
                         console.log(error);
                         addMarkers(fires);
                     }
