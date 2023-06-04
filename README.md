@@ -1,4 +1,4 @@
-# Canadian Wild Fire Map
+# Canadian Wildfire Map
 
 This is a my CS50 Final Project. With the wildfire season in Canada getting worse every year, I wanted to create a web app that would allow users to see the current wildfires in Canada. The app uses the NRCAN Open Data API to get the current wildfires in Canada.
 
