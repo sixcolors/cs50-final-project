@@ -125,7 +125,7 @@
 
                         var marker = L.marker([fire.lat, fire.lon])
                             .bindPopup(
-                                `<h4>Wild Fire ${fire.firename}</h4>
+                                `<h4>Wildfire ${fire.firename}</h4>
                                 ${ typeof(distance) === 'number' ? `<p>${Math.round(distance / 1000)} km your reported location.</p>` : "" }
                                 <p>Started on ${fire.startdate}<br>
                                 ${fire.agency.toUpperCase()} is in charge<br>
@@ -151,7 +151,7 @@
         attribution: "© OpenStreetMap contributors",
     };
     // const wmsTileUrl =
-    //     "http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi";
+    //     "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi";
     // const wmsTileLayerOptions: L.TileLayerOptions = {
     //     layers: "nexrad-n0r-900913",
     //     format: "image/png",
@@ -168,7 +168,7 @@
         legend: "true",
         tms: true,
         attribution:
-            "Canadian Forest Service. 2022. Canadian Wildland Fire Information System (CWFIS), Natural Resources Canada, Canadian Forest Service, Northern Forestry Centre, Edmonton, Alberta. http://cwfis.cfs.nrcan.gc.ca.",
+            "Canadian Forest Service. 2022. Canadian Wildland Fire Information System (CWFIS), Natural Resources Canada, Canadian Forest Service, Northern Forestry Centre, Edmonton, Alberta. https://cwfis.cfs.nrcan.gc.ca.",
     };
 
     let tileLayer: L.TileLayer;

@@ -10,9 +10,9 @@
     // $: console.log(filteredLocations)	
     
     const filterLocations = () => {
-        // fetch suggestions from countries http://geogratis.gc.ca/services/geolocation/fr/autocomplete?q=location
+        // fetch suggestions from countries https://geogratis.gc.ca/services/geolocation/fr/autocomplete?q=location
         console.log("Searching for locations..." + searchInput.value)
-        fetch(`http://geogratis.gc.ca/services/geolocation/en/autocomplete?q=${encodeURIComponent(searchInput.value)}`)
+        fetch(`https://geogratis.gc.ca/services/geolocation/en/autocomplete?q=${encodeURIComponent(searchInput.value)}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data)
@@ -55,7 +55,7 @@
     const submitValue = () => {
         if (inputValue) {
             console.log(`${inputValue} is submitted!`);
-            fetch(`http://geogratis.gc.ca/services/geolocation/en/locate?q=${encodeURIComponent(inputValue)}`)
+            fetch(`https://geogratis.gc.ca/services/geolocation/en/locate?q=${encodeURIComponent(inputValue)}`)
             .then(response => response.json())
             .then(data => {
                 data = data.filter(location => location.type === 'ca.gc.nrcan.geoloc.data.model.Geoname' && location.qualifier === 'LOCATION')

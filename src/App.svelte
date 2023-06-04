@@ -3,7 +3,7 @@
 </script>
 
 <main>
-	<h1>Canadian Wild Fire Map</h1>
+	<h1>Canadian Wildfire Map</h1>
 	<Map />
 </main>
 
