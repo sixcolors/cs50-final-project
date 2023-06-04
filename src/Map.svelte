@@ -9,6 +9,13 @@
     // detect dark mode
     const darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
+    // Globals
+    let userLocation: number[] | undefined;
+    let fires: Fire[] = [];
+    let userLocationCircleLayer: L.Circle;
+    let userLocationPlaceName: string;
+    let firesNearYou: number = -1;
+
     interface Fire {
         agency: string;
         firename: string;
@@ -24,6 +31,65 @@
     let mapOptions: L.MapOptions = {
         center: [60, -95],
         zoom: 4,
+    };
+
+    let fireMarkerLayerGroup: L.LayerGroup;
+
+    const addMarkers = function (fires: Fire[]) {
+        firesNearYou = userLocation !== undefined ? 0 : -1;
+        fireMarkerLayerGroup.clearLayers();
+
+        // add markers
+        fires.forEach((fire) => {
+            let distance: number | undefined;
+            if (userLocation !== undefined) {
+                distance = calculateDistance(
+                    userLocation[0],
+                    userLocation[1],
+                    fire.lat,
+                    fire.lon
+                );
+            }
+            let stageOfControl: string;
+            //Possible values for stage of control include: OC (Out of Control), BH (Being Held), UC (Under Control), EX (Out).
+            switch (fire.stage_of_control) {
+                case "OC":
+                    stageOfControl = "Out of Control";
+                    break;
+                case "BH":
+                    stageOfControl = "Being Held";
+                    break;
+                case "UC":
+                    stageOfControl = "Under Control";
+                    break;
+                case "EX":
+                    stageOfControl = "Out";
+                    break;
+                default:
+                    stageOfControl = "Unknown";
+            }
+
+            L.marker([fire.lat, fire.lon])
+                .bindPopup(
+                    `<h4>Wildfire ${fire.firename}</h4>
+                                ${
+                                    typeof distance === "number"
+                                        ? `<p>${Math.round(
+                                              distance / 1000
+                                          )} km from ${userLocationPlaceName}.</p>`
+                                        : ""
+                                }
+                                <p>Started on ${fire.startdate}<br>
+                                ${fire.agency.toUpperCase()} is in charge<br>
+                                ${fire.hectares} hectares burned<br>
+                                Stage of control: ${stageOfControl}</p>`
+                )
+                .addTo(fireMarkerLayerGroup);
+            if (typeof distance === "number" && distance < 100000) {
+                firesNearYou++;
+            }
+        });
+        lastRefreshed = new Date();
     };
 
     onMount(() => {
@@ -54,6 +120,8 @@
             )
             .addTo(map.getMap());
 
+        fireMarkerLayerGroup = L.layerGroup().addTo(map.getMap());
+
         // download data
         fetch(
             "https://cwfis.cfs.nrcan.gc.ca/downloads/activefires/activefires.csv"
@@ -68,7 +136,7 @@
                 for (let i = 0; i < headers.length; i++) {
                     headers[i] = headers[i].trim();
                 }
-                const fires: Fire[] = rows
+                fires = rows
                     .slice(1)
                     .map((row) => {
                         if (row.trim() === "") {
@@ -89,7 +157,6 @@
                     .filter((fire) => fire !== undefined);
 
                 // get location from browser
-                let userLocation: number[] | undefined;
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         mapOptions.center = [
@@ -109,7 +176,13 @@
                             position.coords.longitude,
                         ];
 
-                        var circle = L.circle(userLocation, {
+                        userLocationPlaceName = "your reported location";
+
+                        if (userLocationCircleLayer !== undefined) {
+                            userLocationCircleLayer.remove();
+                        }
+
+                        userLocationCircleLayer = L.circle(userLocation, {
                             color: "white",
                             fillColor: "#ddd",
                             fillOpacity: 0.5,
@@ -117,68 +190,13 @@
                         }).addTo(map.getMap());
                         1000;
 
-                        addMarkers();
+                        addMarkers(fires);
                     },
                     (error) => {
                         console.log(error);
-                        addMarkers();
+                        addMarkers(fires);
                     }
                 );
-
-                const addMarkers = () => {
-                    firesNearYou = 0;
-                    // add markers
-                    fires.forEach((fire) => {
-                        let distance: Number | undefined;
-                        if (userLocation !== undefined) {
-                            distance = calculateDistance(
-                                userLocation[0],
-                                userLocation[1],
-                                fire.lat,
-                                fire.lon
-                            );
-                        }
-                        let stageOfControl: string;
-                        //Possible values for stage of control include: OC (Out of Control), BH (Being Held), UC (Under Control), EX (Out).
-                        switch (fire.stage_of_control) {
-                            case "OC":
-                                stageOfControl = "Out of Control";
-                                break;
-                            case "BH":
-                                stageOfControl = "Being Held";
-                                break;
-                            case "UC":
-                                stageOfControl = "Under Control";
-                                break;
-                            case "EX":
-                                stageOfControl = "Out";
-                                break;
-                            default:
-                                stageOfControl = "Unknown";
-                        }
-
-                        var marker = L.marker([fire.lat, fire.lon])
-                            .bindPopup(
-                                `<h4>Wildfire ${fire.firename}</h4>
-                                ${
-                                    typeof distance === "number"
-                                        ? `<p>${Math.round(
-                                              distance / 1000
-                                          )} km your reported location.</p>`
-                                        : ""
-                                }
-                                <p>Started on ${fire.startdate}<br>
-                                ${fire.agency.toUpperCase()} is in charge<br>
-                                ${fire.hectares} hectares burned<br>
-                                Stage of control: ${stageOfControl}</p>`
-                            )
-                            .addTo(map.getMap());
-                        if (typeof distance === "number" && distance < 100000) {
-                            firesNearYou++;
-                        }
-                    });
-                    lastRefreshed = new Date();
-                };
             });
     });
 
@@ -217,10 +235,23 @@
     let wmsFireTileLayer: L.TileLayer.WMS;
 
     function onLocationFound(event) {
-        map.getMap().setView([event.detail.lat, event.detail.lon], 8);
-    }
+        if (userLocationCircleLayer !== undefined) {
+            userLocationCircleLayer.remove();
+        }
 
-    let firesNearYou = -1; // -1 means no location found yet
+        userLocation = [event.detail.lat, event.detail.lon];
+        userLocationPlaceName = event.detail.placeName;
+
+        addMarkers(fires);
+
+        userLocationCircleLayer = L.circle(userLocation, {
+            color: "white",
+            fillColor: "#ddd",
+            fillOpacity: 0.5,
+            radius: 10000,
+        }).addTo(map.getMap());
+        map.getMap().setView(userLocation, 8);
+    }
 
     let lastRefreshed: Date | null = null;
 </script>
@@ -229,11 +260,11 @@
 
 {#if firesNearYou > 0}
     <div class="fires-near-you">
-        There are {firesNearYou} wildfires within 100km of your reported location.
-    </div>  
+        There are {firesNearYou} wildfires within 100km of {userLocationPlaceName}.
+    </div>
 {:else if firesNearYou === 0}
     <div class="no-fires-near-you">
-        There are no wildfires within 100km of your reported location.
+        There are no wildfires within 100km of {userLocationPlaceName}.
     </div>
 {/if}
 
@@ -283,7 +314,7 @@
     }
     .no-fires-near-you {
         padding: 1rem;
-        margin: 1rem 1rem -1rem 1rem;
+        margin: 1rem 1rem -2rem 1rem;
         border: 1px solid #ccc;
         border-radius: 0.5rem 0.5rem 0 0;
     }

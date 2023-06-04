@@ -15,7 +15,7 @@
         fetch(`https://geogratis.gc.ca/services/geolocation/en/autocomplete?q=${encodeURIComponent(searchInput.value)}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
                 filteredLocations = data.suggestions;
             })
             .catch(error => console.log(error))
@@ -58,14 +58,26 @@
             fetch(`https://geogratis.gc.ca/services/geolocation/en/locate?q=${encodeURIComponent(inputValue)}`)
             .then(response => response.json())
             .then(data => {
-                data = data.filter(location => location.type === 'ca.gc.nrcan.geoloc.data.model.Geoname' && location.qualifier === 'LOCATION')
+                console.log(data);
+                let locationType;
+                let locationQualifier;
+                const postalCodeRegex = new RegExp(/^[A-Za-z]\d[A-Za-z]$/);
+                if (postalCodeRegex.test(inputValue)) {
+                    locationType = 'ca.gc.nrcan.geoloc.data.model.PostalCode';
+                    locationQualifier = 'INTERPOLATED_CENTROID';
+                } else {
+                    locationType = 'ca.gc.nrcan.geoloc.data.model.Geoname';
+                    locationQualifier = 'LOCATION';
+                }
+                data = data.filter(location => location.type === locationType && location.qualifier === locationQualifier)
                 console.log(data)
                 if (data.length > 0) {
                     let geometry = data[0].geometry;
                     if (geometry.type === 'Point') {
                         let lat = geometry.coordinates[1];
                         let lon = geometry.coordinates[0];
-                        onLocationFound(lat, lon);
+                        let placeName = data[0].title;
+                        onLocationFound(lat, lon, placeName);
                     }
                 } else {
                     alert("No such location found.")
@@ -109,8 +121,8 @@
         }
     } 
 
-    const onLocationFound = function(lat, lon) {
-        const data = {lat, lon}
+    const onLocationFound = function(lat, lon, placeName) {
+        const data = {lat, lon, placeName}
         dispatch('locationFound', data); // dispatching event to parent component
     }
     </script>
