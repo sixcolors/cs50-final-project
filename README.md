@@ -1,16 +1,41 @@
 # Canadian Wildfire Map
 
+#### Video Demo:  <URL HERE>
+
+## Description:
+
 This is a my CS50 Final Project. With the wildfire season in Canada getting worse every year, I wanted to create a web app that would allow users to see the current wildfires in Canada. The app uses the NRCAN Open Data API to get the current wildfires in Canada.
 
 Wildfire data is displayed on a web map using Leaflet and OpenStreetMap.
 
-The app will ask the user for their location and zoom to that location if location access is allowed and can be determined. If the user denies location access or the location cannot be determined, the map will zoom to the default location of Canada at latitute 56.1304 and longitude -106.3468 and zoom level 4.
+The app will ask the user for their location and zoom to that location if location access is allowed and can be determined. If the user denies location access or the location cannot be determined, the map will zoom to the default location of Canada at latitute 60 and longitude -95 and zoom level 4.
 
-When a user clicks on a wildfire marker, a popup will display the wildfire name, the fire center latitude and longitude, the fire size, and the distance to the wildfire from the user's location.
+When a user clicks on a wildfire marker, a popup will display the wildfire name, the agency in charge, the fire size and status, and the distance to the wildfire from the user's location.
 
-The user can also search for a location using the search input. However a distance to wildfires will not be displayed if the user searches for a location.
+The user can also search for a location using the search input. The app will use the NRCAN Geolocation Service to get the geographic location of the named feature. The app will then zoom to the location and display the wildfires in that area.
 
-The user can click on a wildfire marker to get more information about the wildfire.
+#### The Components and What They Do
+
+* **App.svelte** - The main component that contains the map and the search input.
+* **Map.svelte** - The component that contains the Leaflet map.
+* **Locator.svelte** - The component that lets the user search for a location.
+* **Location.svelte** - A component that displays a possible location for the user to select in the Locator's dropdown menu.
+
+#### Design Decisions
+
+I chose to use Svelte for this project because I wanted to learn a new framework. I chose Svelte because it is a compiler and not a framework. I also chose Svelte because it is lightweight and fast.
+
+I chose to use TypeScript for this project because I wanted to practice using TypeScript. I have more experiance developing web application using JavaScript and I wanted to try something new.
+
+I chose to use Leaflet for the map because it is lightweight and easy to use. I also chose Leaflet because it is open source and has a large community.
+
+I chose to use OpenStreetMap for the map tiles because it is open source and has a large community and it's free.
+
+I chose to use the NRCAN Open Data API because it is free and has a large amount of data, including the current wildfires in Canada.
+
+Using a web map to display the wildfires allows the user to see the wildfires in relation to their location. This allows the user to see how close the wildfires are to them. This can help the user make decisions about their safety. I also thought it was important to highlight wildfires that are very close (within 100 km) so I added a header to the map that displays the number of wildfires that are within 100 km of the user's location.
+
+Overall, this was a fun project to work on and I learned a lot about Svelte and TypeScript. I did run into some issues with figuring out how to properly nest Svelte components and use message passing between components. I also had some issues with getting the Leaflet map to work properly with Svelte, speficically I used svelte-leafletjs, but it lacks many methods and events, so I had to handle those in the onMount and other handlers by accessing the Leaflet map object directly.
 
 ## About the Tech Stack
 The app is built using Svelte with typescript, Leaflet, and OpenStreetMap. The app uses the NRCAN Open Data to get the current wildfires in Canada and the NRCAN Web Mapping Service to get the wildfire boundaries and point location icons. Geting the geographic location of named features is done using the NRCAN Geolocation Service.
