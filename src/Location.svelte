@@ -1,6 +1,21 @@
-<script>
-    export let itemLabel;
-    export let highlighted;
+<script lang="ts">
+    import { onMount } from "svelte";
+
+    export let itemLabel: string;
+    export let highlighted: boolean;
+
+    onMount(() => {
+        const handleClick = () => {
+            // Handle click event here
+        };
+
+        const liElement = document.querySelector(".autocomplete-items");
+        liElement.addEventListener("click", handleClick);
+
+        return () => {
+            liElement.removeEventListener("click", handleClick);
+        };
+    });
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
