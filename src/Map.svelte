@@ -282,7 +282,7 @@
         padding: 1rem;
         height: calc(
             100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) -
-                3rem
+                8rem
         );
     }
 
