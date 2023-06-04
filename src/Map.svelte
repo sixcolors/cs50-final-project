@@ -115,6 +115,7 @@
                             fillOpacity: 0.5,
                             radius: 10000,
                         }).addTo(map.getMap());
+                        1000;
 
                         addMarkers();
                     },
@@ -125,6 +126,7 @@
                 );
 
                 const addMarkers = () => {
+                    firesNearYou = 0;
                     // add markers
                     fires.forEach((fire) => {
                         let distance: Number | undefined;
@@ -136,7 +138,6 @@
                                 fire.lon
                             );
                         }
-                        // if (distance < 100000) {
                         let stageOfControl: string;
                         //Possible values for stage of control include: OC (Out of Control), BH (Being Held), UC (Under Control), EX (Out).
                         switch (fire.stage_of_control) {
@@ -172,10 +173,9 @@
                                 Stage of control: ${stageOfControl}</p>`
                             )
                             .addTo(map.getMap());
-                        // alert(
-                        //     `You are within ${distance} meters of ${fire.firename}!`
-                        // );
-                        // }
+                        if (typeof distance === "number" && distance < 100000) {
+                            firesNearYou++;
+                        }
                     });
                 };
             });
@@ -218,9 +218,21 @@
     function onLocationFound(event) {
         map.getMap().setView([event.detail.lat, event.detail.lon], 8);
     }
+
+    let firesNearYou = -1; // -1 means no location found yet
 </script>
 
 <Locator on:locationFound={onLocationFound} />
+
+{#if firesNearYou > 0}
+    <div class="fires-near-you">
+        There are {firesNearYou} wildfires within 100km of your reported location.
+    </div>  
+{:else if firesNearYou === 0}
+    <div class="no-fires-near-you">
+        There are no wildfires within 100km of your reported location.
+    </div>
+{/if}
 
 <div class="map">
     <LeafletMap bind:this={map} options={mapOptions}>
@@ -253,5 +265,17 @@
             100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) -
                 3rem
         );
+    }
+    .fires-near-you {
+        padding: 1rem;
+        margin: 1rem 1rem -1rem 1rem;
+        border: 1px solid #ffcc00; /* yellow warning color */
+        border-radius: 0.5rem;
+    }
+    .no-fires-near-you {
+        padding: 1rem;
+        margin: 1rem 1rem -1rem 1rem;
+        border: 1px solid #ccc;
+        border-radius: 0.5rem;
     }
 </style>
