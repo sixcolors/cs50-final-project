@@ -94,7 +94,7 @@
             layers: "fdr_current",
             format: "image/png",
             transparent: true,
-            opacity: 0.8,
+            opacity: 0.6,
             legend: "true",
             tms: true,
             attribution:
