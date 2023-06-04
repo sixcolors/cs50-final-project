@@ -177,6 +177,7 @@
                             firesNearYou++;
                         }
                     });
+                    lastRefreshed = new Date();
                 };
             });
     });
@@ -220,6 +221,8 @@
     }
 
     let firesNearYou = -1; // -1 means no location found yet
+
+    let lastRefreshed: Date | null = null;
 </script>
 
 <Locator on:locationFound={onLocationFound} />
@@ -256,6 +259,12 @@
     </LeafletMap>
 </div>
 
+{#if lastRefreshed !== null}
+    <div class="last-refreshed">
+        Last refreshed: {lastRefreshed.toLocaleString()}
+    </div>
+{/if}
+
 <style>
     .map {
         width: calc(100% - 2rem);
@@ -268,14 +277,20 @@
     }
     .fires-near-you {
         padding: 1rem;
-        margin: 1rem 1rem -1rem 1rem;
+        margin: 1rem 1rem -2rem 1rem;
         border: 1px solid #ffcc00; /* yellow warning color */
-        border-radius: 0.5rem;
+        border-radius: 0.5rem 0.5rem 0 0;
     }
     .no-fires-near-you {
         padding: 1rem;
         margin: 1rem 1rem -1rem 1rem;
         border: 1px solid #ccc;
-        border-radius: 0.5rem;
+        border-radius: 0.5rem 0.5rem 0 0;
+    }
+    .last-refreshed {
+        padding: 1rem;
+        margin: -1rem 1rem 1rem 1rem;
+        border: 1px solid #ccc;
+        border-radius: 0 0 0.5rem 0.5rem;
     }
 </style>
