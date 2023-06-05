@@ -1,6 +1,8 @@
 # Canadian Wildfire Map
 
-#### Video Demo:  <URL HERE>
+#### Video Demo:  https://youtu.be/3aE-jOlO_YE
+
+#### Live Demo:  https://canadian-wildfire-map-u3ppf.ondigitalocean.app/
 
 ## Description:
 
