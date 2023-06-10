@@ -52,6 +52,12 @@ npm install
 ```
 npm run dev
 ```
+
+## How to Run the App in Production Mode
+```
+npm run start
+```
+
 4. Open http://localhost:8080 to view it in the browser.
 
 ## How to Use the App
@@ -59,9 +65,24 @@ npm run dev
 2. Click on a wildfire marker to get more information about the wildfire.
 3. Search for a location using the search input.
 
+## How to Run the Svelte Check
+```
+npm run svelte-check
+```
+
 ## How to Run the Tests
 ```
 npm run test
+```
+
+## How to Run the Tests and View in Web UI
+```
+npm run test:ui
+```
+
+## How to Check Code Coverage
+```
+npm run coverage
 ```
 
 ## How to Build the App
@@ -69,7 +90,7 @@ npm run test
 npm run build
 ```
 
-## How to Deploy the App
+## How to Deploy the App to DigitalOcean as a Static Site
 1. Create a new repository on GitHub.
 2. Push the app to GitHub.
 ```
@@ -78,7 +99,7 @@ git push -u origin main
 ```
 3. Create a new app on DigitalOcean.
 4. Connect the app to the GitHub repository.
-5. Deploy the app.
+5. Deploy the app selecting the main branch and the static site option.
 
 ## How to Contribute to the Project
 1. Fork the repo.

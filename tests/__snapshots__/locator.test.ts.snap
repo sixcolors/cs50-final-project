@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Locator.svelte > renders without errors 1`] = `"<div><form autocomplete=\\"off\\"><div class=\\"autocomplete svelte-slbzz2\\"><input id=\\"location-input\\" type=\\"text\\" placeholder=\\"Search Location\\" class=\\"svelte-slbzz2\\"> </div> <input type=\\"submit\\" value=\\"Submit\\" class=\\"svelte-slbzz2\\"></form></div>"`;

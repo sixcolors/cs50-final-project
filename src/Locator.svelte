@@ -8,8 +8,7 @@
     let filteredLocations: string[] = [];
     let hiLiteIndex: number | null = null;
 
-    const filterLocations = (): void => {
-        console.log("Searching for locations..." + searchInput.value);
+    export const filterLocations = (): void => {
         fetch(
             `https://geogratis.gc.ca/services/geolocation/en/autocomplete?q=${encodeURIComponent(
                 searchInput.value
@@ -45,7 +44,6 @@
 
     const submitValue = (): void => {
         if (inputValue) {
-            console.log(`${inputValue} is submitted!`);
             fetch(
                 `https://geogratis.gc.ca/services/geolocation/en/locate?q=${encodeURIComponent(
                     inputValue
@@ -53,7 +51,6 @@
             )
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data);
                     let locationType: string;
                     let locationQualifier: string;
                     const postalCodeRegex = new RegExp(/^[A-Za-z]\d[A-Za-z]$/);
@@ -70,7 +67,6 @@
                             location.type === locationType &&
                             location.qualifier === locationQualifier
                     );
-                    console.log(data);
                     if (data.length > 0) {
                         let geometry = data[0].geometry;
                         if (geometry.type === "Point") {
@@ -158,7 +154,7 @@
         {/if}
     </div>
 
-    <input type="submit" />
+    <input type="submit" value="Submit" />
 </form>
 
 <style>
