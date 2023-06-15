@@ -15,6 +15,33 @@
 			Polygons indicating the affected areas, users can quickly see where
 			wildfires are currently burning and how they are spreading.
 		</p>
+		<div class="legend">
+			<h3>Fire Status:</h3>
+			<div class="legend-range legend-range-color-out-of-control">
+				<div class="legend-label">Out of control</div>
+				<div class="legend-range-item">0 to 100 Ha</div>
+				<div class="legend-range-item">101 to 1000 Ha</div>
+				<div class="legend-range-item">&gt; 1000 Ha</div>
+			</div>
+			<div class="legend-range legend-range-color-being-held">
+				<div class="legend-label">Being held</div>
+				<div class="legend-range-item">0 to 100 Ha</div>
+				<div class="legend-range-item">101 to 1000 Ha</div>
+				<div class="legend-range-item">&gt; 1000 Ha</div>
+			</div>
+			<div class="legend-range legend-range-color-under-control">
+				<div class="legend-label">Under control</div>
+				<div class="legend-range-item">0 to 100 Ha</div>
+				<div class="legend-range-item">101 to 1000 Ha</div>
+				<div class="legend-range-item">&gt; 1000 Ha</div>
+			</div>
+			<div class="legend-range legend-range-color-other">
+				<div class="legend-label">Other</div>
+				<div class="legend-range-item">0 to 100 Ha</div>
+				<div class="legend-range-item">101 to 1000 Ha</div>
+				<div class="legend-range-item">&gt; 1000 Ha</div>
+			</div>
+		</div>
 		<h2>Search for Locations and Access Detailed Information</h2>
 		<p>
 			Users can search for a location by entering a city name or postal
@@ -30,10 +57,10 @@
 			provides users with Current Fire Danger Polygons, which indicate the
 			current fire danger rating for each region. Fire Danger is a
 			relative index of how easy it is to ignite vegetation, how difficult
-			a fire may be to control, and how much damage a fire may do. Turn
-			on this layer under the layers control in the top right of the map.
-			By staying informed about fire danger ratings, users can take steps
-			to protect themselves and their communities from wildfires.
+			a fire may be to control, and how much damage a fire may do. Turn on
+			this layer under the layers control in the top right of the map. By
+			staying informed about fire danger ratings, users can take steps to
+			protect themselves and their communities from wildfires.
 		</p>
 		<div class="legend">
 			<h3>Fire Danger Ratings:</h3>
@@ -200,6 +227,60 @@
 
 	.legend-label {
 		font-size: 0.8rem;
+	}
+
+	.legend-range {
+		display: flex;
+		flex-direction: column;
+		margin-bottom: 1em;
+	}
+
+	.legend-range .legend-label {
+		font-weight: bold;
+		margin-bottom: 0.5em;
+	}
+
+	.legend-range-item {
+		display: flex;
+		align-items: center;
+		margin-right: 0.5em;
+	}
+
+	.legend-range-item::before {
+		content: "";
+		display: inline-block;
+		width: 9px;
+		height: 9px;
+		margin-right: 0.5em;
+		border-radius: 50%;
+		border: 2px solid #000;
+		background-color: #f03b20;
+	}
+
+	.legend-range-item:nth-child(3)::before {
+		width: 12px;
+		height: 12px;
+	}
+
+	.legend-range-item:nth-child(4)::before {
+		width: 15px;
+		height: 15px;
+	}
+
+	.legend-range-color-out-of-control .legend-range-item::before {
+		background-color: #f03b20;
+	}
+
+	.legend-range-color-being-held .legend-range-item::before {
+		background-color: #fff300;
+	}
+
+	.legend-range-color-under-control .legend-range-item::before {
+		background-color: #00a2ff;
+	}
+
+	.legend-range-color-other .legend-range-item::before {
+		background-color: #ffb24c;
 	}
 
 	@media (prefers-color-scheme: dark) {
