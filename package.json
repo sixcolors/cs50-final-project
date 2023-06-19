@@ -20,7 +20,7 @@
     "@sveltejs/vite-plugin-svelte": "^2.4.1",
     "@testing-library/svelte": "^3.2.2",
     "@tsconfig/svelte": "^4.0.1",
-    "@vitest/coverage-v8": "^0.32.0",
+    "@vitest/coverage-v8": "^0.32.2",
     "@vitest/ui": "^0.32.2",
     "jsdom": "^22.1.0",
     "leaflet": "^1.9.4",
