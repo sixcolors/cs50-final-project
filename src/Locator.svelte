@@ -39,7 +39,8 @@
         inputValue = removeBold(locationName);
         filteredLocations = [];
         hiLiteIndex = null;
-        document.querySelector("#location-input").focus();
+        const locationInput = document.querySelector("#location-input") as HTMLInputElement;
+        locationInput.focus();
     };
 
     const submitValue = (): void => {
