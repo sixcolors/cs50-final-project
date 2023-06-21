@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/sixcolors/cs50-final-project/actions/workflows/ci.yml/badge.svg)](https://github.com/sixcolors/cs50-final-project/actions/workflows/ci.yml)
 
-
+[![Coverage Status](https://coveralls.io/repos/github/sixcolors/cs50-final-project/badge.svg?branch=main)](https://coveralls.io/github/sixcolors/cs50-final-project?branch=main)
 
 #### Video Demo:  https://youtu.be/3aE-jOlO_YE
 
