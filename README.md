@@ -1,5 +1,9 @@
 # Canadian Wildfire Map
 
+[![CI](https://github.com/sixcolors/cs50-final-project/actions/workflows/ci.yml/badge.svg)](https://github.com/sixcolors/cs50-final-project/actions/workflows/ci.yml)
+
+
+
 #### Video Demo:  https://youtu.be/3aE-jOlO_YE
 
 #### Live Demo:  https://canadian-wildfire-map-u3ppf.ondigitalocean.app/
