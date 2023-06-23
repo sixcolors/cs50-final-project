@@ -4,47 +4,47 @@
 [![CodeQL](https://github.com/sixcolors/cs50-final-project/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/sixcolors/cs50-final-project/actions/workflows/github-code-scanning/codeql)
 [![Coverage Status](https://coveralls.io/repos/github/sixcolors/cs50-final-project/badge.svg?branch=main)](https://coveralls.io/github/sixcolors/cs50-final-project?branch=main)
 
-#### Video Demo:  https://youtu.be/3aE-jOlO_YE
+#### Video Demo:  [Watch on YouTube](https://youtu.be/3aE-jOlO_YE)
 
-#### Live Demo:  https://canadian-wildfire-map-u3ppf.ondigitalocean.app/
+#### Live Demo:  [Access the Canadian Wildfire Map](https://canadian-wildfire-map-u3ppf.ondigitalocean.app/)
 
 ## Description:
 
-This is a my CS50 Final Project. With the wildfire season in Canada getting worse every year, I wanted to create a web app that would allow users to see the current wildfires in Canada. The app uses the NRCAN Open Data API to get the current wildfires in Canada.
+This project is my CS50 Final Project. As the wildfire season in Canada worsens each year, I developed a web app that allows users to track the current wildfires in Canada. The app utilizes the NRCAN Open Data API to retrieve the latest information on wildfires in Canada.
 
-Wildfire data is displayed on a web map using Leaflet and OpenStreetMap.
+The wildfire data is displayed on an interactive web map using Leaflet and OpenStreetMap.
 
-The app will ask the user for their location and zoom to that location if location access is allowed and can be determined. If the user denies location access or the location cannot be determined, the map will zoom to the default location of Canada at latitute 60 and longitude -95 and zoom level 4.
+The app prompts the user for their location and automatically zooms to that location if location access is permitted and available. In case the user denies location access or the location cannot be determined, the map defaults to Canada's coordinates (latitude 60, longitude -95) with a zoom level of 4.
 
-When a user clicks on a wildfire marker, a popup will display the wildfire name, the agency in charge, the fire size and status, and the distance to the wildfire from the user's location.
+When a user clicks on a wildfire marker, a popup displays the wildfire name, the agency in charge, the fire size and status, and the distance between the wildfire and the user's location.
 
-The user can also search for a location using the search input. The app will use the NRCAN Geolocation Service to get the geographic location of the named feature. The app will then zoom to the location and display the wildfires in that area.
+Additionally, users can search for specific locations using the search input. The app utilizes the NRCAN Geolocation Service to obtain the geographic coordinates of the named feature. The map then zooms to the searched location and displays the wildfires in that area.
 
-#### The Components and What They Do
+### Components and Their Functions
 
-* **App.svelte** - The main component that contains the map and the search input.
-* **Map.svelte** - The component that contains the Leaflet map.
-* **Locator.svelte** - The component that lets the user search for a location.
-* **Location.svelte** - A component that displays a possible location for the user to select in the Locator's dropdown menu.
+* **App.svelte** - The main component containing the map and the search input.
+* **Map.svelte** - The component responsible for rendering the Leaflet map.
+* **Locator.svelte** - The component enabling users to search for a specific location.
+* **Location.svelte** - A component displaying a potential location for the user to select from the dropdown menu in the Locator.
 
-#### Design Decisions
+### Design Decisions
 
-I chose to use Svelte for this project because I wanted to learn a new framework. I chose Svelte because it is a compiled, lightweight and fast. It also has a reputation for being fun to use.
+I opted to use Svelte for this project to learn a new framework. Svelte appealed to me due to its compilation process, lightweight nature, speed, and reputation for being enjoyable to use.
 
-I chose to use TypeScript for this project because I wanted to practice using TypeScript. I have more experiance developing web application using JavaScript.
+To practice TypeScript, I chose it as the programming language for this project, even though I have more experience developing web applications with JavaScript.
 
-I chose to use Leaflet for the map because it is lightweight and easy to use. I also chose Leaflet because it is open source and has a large community.
+For the map functionality, I selected Leaflet due to its simplicity and user-friendly nature. Additionally, Leaflet is an open-source library with a large community.
 
-I chose to use OpenStreetMap for the map tiles because it is open source, has a large community and it's free.
+To provide map tiles, I utilized OpenStreetMap, which is open-source, widely supported by the community, and free of charge.
 
-I chose to use the NRCAN Open Data API because it is free and has a large amount of data, including the current wildfires in Canada.
+To retrieve wildfire data, I employed the NRCAN Open Data API because it offers extensive data, including information about the current wildfires in Canada, and it is freely accessible.
 
-Using a web map to display the wildfires allows the user to see the wildfires in relation to their location. This allows the user to see how close the wildfires are to them. This can help the user make decisions about their safety. I also thought it was important to highlight wildfires that are very close (within 100 km) so I added a header to the map that displays the number of wildfires that are within 100 km of the user's location.
+Using a web map to display the wildfires allows users to visualize the wildfires in relation to their own location, enabling them to assess their proximity to the fires and make informed decisions regarding their safety. To emphasize wildfires within close range (within 100 km), I added a header to the map displaying the number of wildfires within 100 km of the user's location.
 
-Overall, this was a fun project to work on and I learned a lot about Svelte and TypeScript. I did run into some issues with figuring out how to properly nest Svelte components and use message passing between components. I also had some issues with getting the Leaflet map to work properly with Svelte, speficically I used svelte-leafletjs, but it lacks many methods and events, so I had to handle those in the onMount and other handlers by accessing the Leaflet map object directly.
+Overall, this project was an enjoyable learning experience. I gained valuable knowledge about Svelte and TypeScript, although I encountered challenges with nesting Svelte components and implementing message passing between them. Additionally, integrating the Leaflet map with Svelte presented difficulties since the chosen svelte-leafletjs library lacked certain methods and events. I had to handle them within onMount and other handlers by directly accessing the Leaflet map object.
 
-## About the Tech Stack
-The app is built using Svelte with typescript, Leaflet, and OpenStreetMap. The app uses the NRCAN Open Data to get the current wildfires in Canada and the NRCAN Web Mapping Service to get the wildfire boundaries and point location icons. Geting the geographic location of named features is done using the NRCAN Geolocation Service.
+## Tech Stack
+The app is built using Svelte with TypeScript, Leaflet, and OpenStreetMap. It relies on the NRCAN Open Data for retrieving current wildfire data in Canada and the NRCAN Web Mapping Service for wildfire boundaries and point location icons. The NRCAN Geolocation Service is used to obtain geographic coordinates for named features.
 
 ## How to Run the App
 1. Clone the repo
@@ -56,45 +56,46 @@ npm install
 ```
 npm run dev
 ```
+4. Open http://localhost:8080 in your browser to view the app.
 
-## How to Run the App in Production Mode
+## Running the App in Production Mode
 ```
 npm run start
 ```
 
 4. Open http://localhost:8080 to view it in the browser.
 
-## How to Use the App
+## Using the App
 1. Allow the app to access your location.
-2. Click on a wildfire marker to get more information about the wildfire.
-3. Search for a location using the search input.
+2. Click on a wildfire marker to view more information about the wildfire.
+3. Use the search input to find specific locations.
 
-## How to Run the Svelte Check
+## Running Svelte Check
 ```
 npm run svelte-check
 ```
 
-## How to Run the Tests
+## Running the Tests
 ```
 npm run test
 ```
 
-## How to Run the Tests and View in Web UI
+## Running the Tests and Viewing in Web UI
 ```
 npm run test:ui
 ```
 
-## How to Check Code Coverage
+## Checking Code Coverage
 ```
 npm run coverage
 ```
 
-## How to Build the App
+## Building the App
 ```
 npm run build
 ```
 
-## How to Deploy the App to DigitalOcean as a Static Site
+## Deploying the App to DigitalOcean as a Static Site
 1. Create a new repository on GitHub.
 2. Push the app to GitHub.
 ```
@@ -105,7 +106,7 @@ git push -u origin main
 4. Connect the app to the GitHub repository.
 5. Deploy the app selecting the main branch and the static site option.
 
-## How to Contribute to the Project
+## Contributing to the Project
 1. Fork the repo.
 2. Create a new branch.
 ```
@@ -123,7 +124,7 @@ git push origin <branch name>
 5. Create a pull request.
 
 ## License
-This project is licensed under the MIT License - see the LICENSE.md file for details.
+This project is licensed under the MIT License. For details, see the LICENSE.md file.
 
 ## Acknowledgements
 * [CWFIS Datamart](https://cwfis.cfs.nrcan.gc.ca/datamart)
