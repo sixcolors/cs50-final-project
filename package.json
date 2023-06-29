@@ -16,7 +16,7 @@
     "@rollup/plugin-commonjs": "^25.0.2",
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-terser": "^0.4.3",
-    "@rollup/plugin-typescript": "^11.1.1",
+    "@rollup/plugin-typescript": "^11.1.2",
     "@sveltejs/vite-plugin-svelte": "^2.4.2",
     "@testing-library/svelte": "^4.0.1",
     "@tsconfig/svelte": "^5.0.0",
