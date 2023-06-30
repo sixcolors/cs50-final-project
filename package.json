@@ -30,7 +30,7 @@
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-svelte": "^7.1.6",
-    "svelte": "^4.0.0",
+    "svelte": "^4.0.1",
     "svelte-check": "^3.4.4",
     "svelte-leafletjs": "^0.10.0",
     "svelte-preprocess": "^5.0.4",
