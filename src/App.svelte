@@ -6,6 +6,7 @@
 	<header>
 		<h1>Canadian Wildfire Map</h1>
 	</header>
+	<Map />
 	<section>
 		<h2>Stay Updated on Wildfires Across Canada</h2>
 		<p>
@@ -139,7 +140,6 @@
 			> to learn more about the Canadian Wildfire Map and how it was created.
 		</p>
 	</section>
-	<Map />
 </main>
 
 <footer>
@@ -158,15 +158,15 @@
 <style>
 	main {
 		text-align: center;
-		padding: 1em;
+		padding: 0;
 		max-width: 1080px;
 		margin: 0 auto;
 	}
 
 	h1 {
 		color: #ff3e00;
-		font-size: 4em;
-		font-weight: 100;
+		font-size: 3em;
+		font-weight: 200;
 	}
 
 	section {
@@ -178,6 +178,7 @@
 	footer {
 		text-align: center;
 		margin-top: 2em;
+		padding-bottom: calc(1em + env(safe-area-inset-bottom));
 		color: #888;
 		font-size: 0.8em;
 	}

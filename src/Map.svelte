@@ -284,9 +284,8 @@
 
 <style>
     .map {
-        width: calc(100% - 2rem);
         margin-top: 1rem;
-        padding: 1rem;
+        padding: 1rem 0;
         height: calc(
             100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) -
                 8rem
@@ -295,21 +294,21 @@
 
     .fires-near-you {
         padding: 1rem;
-        margin: 1rem 1rem -2rem 1rem;
+        margin: 1rem 0 -2rem 0;
         border: 1px solid #ffcc00; /* yellow warning color */
         border-radius: 0.5rem 0.5rem 0 0;
     }
 
     .no-fires-near-you {
         padding: 1rem;
-        margin: 1rem 1rem -2rem 1rem;
+        margin: 1rem 0 -2rem 0;
         border: 1px solid #ccc;
         border-radius: 0.5rem 0.5rem 0 0;
     }
 
     .last-refreshed {
         padding: 1rem;
-        margin: -1rem 1rem 1rem 1rem;
+        margin: -1rem 0 1rem 0;
         border: 1px solid #ccc;
         border-radius: 0 0 0.5rem 0.5rem;
     }
