@@ -158,7 +158,7 @@
 <style>
 	main {
 		text-align: center;
-		padding: 0.5em;
+		padding: 0 0.5em;
 		max-width: 1080px;
 		margin: 0 auto;
 	}
