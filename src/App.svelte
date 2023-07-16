@@ -135,7 +135,7 @@
 		</p>
 		<h2>Learn More</h2>
 		<p>
-			Visit our <a href="https://github.com/sixcolors/cs50-final-project"
+			Visit the <a href="https://github.com/sixcolors/cs50-final-project"
 				>GitHub repository</a
 			> to learn more about the Canadian Wildfire Map and how it was created.
 		</p>
