@@ -36,7 +36,7 @@ exports[`App.svelte > renders without errors 1`] = `
 			from the devastating impacts of uncontrolled fires.</p> <h2>Try the Canadian Wildfire Map Today</h2> <p>Whether you are a concerned citizen, a firefighter, or a government
 			official, the Canadian Wildfire Map is an essential tool for staying
 			informed about wildfires across the country. Try it today and see
-			how it can help you stay safe and informed.</p> <h2>Learn More</h2> <p>Visit our <a href=\\"https://github.com/sixcolors/cs50-final-project\\">GitHub repository</a> to learn more about the Canadian Wildfire Map and how it was created.</p></section></main> <footer class=\\"svelte-1v1t9hz\\"><p>This service is provided as is, without warranty of any kind. The
+			how it can help you stay safe and informed.</p> <h2>Learn More</h2> <p>Visit the <a href=\\"https://github.com/sixcolors/cs50-final-project\\">GitHub repository</a> to learn more about the Canadian Wildfire Map and how it was created.</p></section></main> <footer class=\\"svelte-1v1t9hz\\"><p>This service is provided as is, without warranty of any kind. The
 		accuracy of data on this website is not guaranteed.</p> <p>For official Canadian Wildland Fire Information System (CWFIS)
 		information, please visit <a href=\\"https://cwfis.cfs.nrcan.gc.ca/\\">https://cwfis.cfs.nrcan.gc.ca/</a>.</p></footer></div>"
 `;
