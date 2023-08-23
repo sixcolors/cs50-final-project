@@ -19,7 +19,7 @@
     "@rollup/plugin-typescript": "^11.1.2",
     "@sveltejs/vite-plugin-svelte": "^2.4.5",
     "@testing-library/svelte": "^4.0.3",
-    "@tsconfig/svelte": "^5.0.0",
+    "@tsconfig/svelte": "^5.0.2",
     "@vitest/coverage-v8": "^0.34.2",
     "@vitest/ui": "^0.34.2",
     "jsdom": "^22.1.0",
