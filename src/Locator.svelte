@@ -1,8 +1,12 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import { createEventDispatcher } from "svelte";
     import Location from "./Location.svelte";
 
     const dispatch = createEventDispatcher();
+
+    // Used to disable submit button while fetching data
+    let isFetching = false;
 
     /* FILTERING location DATA BASED ON INPUT */
     let filteredLocations: string[] = [];
@@ -26,7 +30,7 @@
     let inputValue = "";
 
     $: if (!inputValue) {
-        filteredLocations = [];
+            filteredLocations = [];
         hiLiteIndex = null;
     }
 
@@ -41,10 +45,13 @@
         hiLiteIndex = null;
         const locationInput = document.querySelector("#location-input") as HTMLInputElement;
         locationInput.focus();
+        // Automatically submit the form when user selects a location
+        submitValue();
     };
 
     const submitValue = (): void => {
         if (inputValue) {
+            isFetching = true;
             fetch(
                 `https://geogratis.gc.ca/services/geolocation/en/locate?q=${encodeURIComponent(
                     inputValue
@@ -64,7 +71,7 @@
                         locationQualifier = "LOCATION";
                     }
                     data = data.filter(
-                        (location) =>
+                        (location: { type: string; qualifier: string; }) =>
                             location.type === locationType &&
                             location.qualifier === locationQualifier
                     );
@@ -80,7 +87,10 @@
                         alert("No such location found.");
                     }
                 })
-                .catch((error) => console.log(error));
+                .catch((error) => console.log(error))
+                .finally(() => {
+                    isFetching = false;
+                });
             setTimeout(clearInput, 1000);
         } else {
             alert("You didn't type anything.");
@@ -106,13 +116,17 @@
             hiLiteIndex! <= filteredLocations.length - 1
         ) {
             hiLiteIndex = hiLiteIndex === null ? 0 : hiLiteIndex + 1;
-        } else if (e.key === "ArrowUp" && hiLiteIndex !== null) {
+        } else if (e.key === "ArrowUp" && hiLiteIndex !== 0) {
             hiLiteIndex =
-                hiLiteIndex === 0
+                hiLiteIndex === null
                     ? filteredLocations.length - 1
                     : hiLiteIndex - 1;
         } else if (e.key === "Enter") {
-            setInputVal(filteredLocations[hiLiteIndex!]);
+            if (hiLiteIndex !== null) {
+                setInputVal(filteredLocations[hiLiteIndex]);
+            } else {
+                return;
+            }
         } else {
             return;
         }
@@ -126,6 +140,8 @@
         const data = { lat, lon, placeName };
         dispatch("locationFound", data); // dispatching event to parent component
     };
+
+    $: isSubmitDisabled = inputValue.length < 1 || isFetching; // calculate submit button disabled status
 </script>
 
 <svelte:window on:keydown={navigateList} />
@@ -139,6 +155,9 @@
             bind:this={searchInput}
             bind:value={inputValue}
             on:input={filterLocations}
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"
         />
 
         <!-- FILTERED LIST OF LOCATIONS -->
@@ -155,7 +174,7 @@
         {/if}
     </div>
 
-    <input type="submit" value="Submit" />
+    <input type="submit" value="Submit" disabled={isSubmitDisabled} />
 </form>
 
 <style>
@@ -184,6 +203,11 @@
         color: #fff;
     }
 
+    input[type="submit"]:disabled {
+        background-color: #ccc;
+        color: #666;
+    }
+
     #autocomplete-items-list {
         position: absolute;
         margin: 0;
@@ -198,7 +222,7 @@
         input {
             background-color: #333;
             color: #fff;
-        }
+    }
 
         input[type="text"] {
             background-color: #333;
