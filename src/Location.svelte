@@ -6,20 +6,31 @@
 
     onMount(() => {
         const handleClick = () => {
-            // Handle click event here
+            const liElement = document.querySelector(".autocomplete-items");
+            if (liElement) {
+                liElement.setAttribute("aria-selected", "true");
+            }
+
+            const liElements = document.querySelectorAll(".autocomplete-items");
+            liElements.forEach((li) => {
+                if (li !== liElement) {
+                    li.setAttribute("aria-selected", "false");
+                }
+            });
         };
 
         const liElement = document.querySelector(".autocomplete-items");
-        liElement.addEventListener("click", handleClick);
+        if (liElement) {
+            liElement.addEventListener("click", handleClick);
+        }
 
         return () => {
-            liElement.removeEventListener("click", handleClick);
+            return liElement;
         };
     });
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<li class="autocomplete-items" class:autocomplete-active={highlighted} on:click>
+<li class="autocomplete-items" class:autocomplete-active={highlighted} on:click role="option" on:keydown aria-selected="false">
     {@html itemLabel}
 </li>
 

@@ -1,9 +1,12 @@
 <script lang="ts">
+    // @ts-ignore
     import { LeafletMap, TileLayer } from "svelte-leafletjs";
+    // @ts-ignore
     import { onMount } from "svelte";
     import { calculateDistance } from "./utils";
     import Locator from "./Locator.svelte";
     import "leaflet/dist/leaflet.css";
+    // @ts-ignore
     import L from "leaflet";
 
     // Globals
@@ -22,6 +25,7 @@
         hectares: number;
         stage_of_control: string;
         timezone: string;
+        [key: string]: any;
     }
 
     let map: L.Map;
@@ -156,7 +160,7 @@
                         }
                         return fire;
                     })
-                    .filter((fire) => fire !== undefined);
+                    .filter((fire) => fire !== undefined) as Fire[];
 
                 // get location from browser
                 navigator.geolocation.getCurrentPosition(
@@ -226,7 +230,7 @@
     let tileLayer: L.TileLayer;
     let wmsFireTileLayer: L.TileLayer.WMS;
 
-    function onLocationFound(event) {
+    function onLocationFound(event: { detail: { lat: number; lon: number; placeName: string; }; }) {
         if (userLocationCircleLayer !== undefined) {
             userLocationCircleLayer.remove();
         }
