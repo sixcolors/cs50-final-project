@@ -18,7 +18,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.5",
     "@sveltejs/vite-plugin-svelte": "^2.4.6",
-    "@testing-library/svelte": "^4.0.3",
+    "@testing-library/svelte": "^4.0.4",
     "@tsconfig/svelte": "^5.0.2",
     "@vitest/coverage-v8": "^0.34.6",
     "@vitest/ui": "^0.34.6",
