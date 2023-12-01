@@ -24,7 +24,7 @@
     "@vitest/ui": "^0.34.6",
     "jsdom": "^22.1.0",
     "leaflet": "^1.9.4",
-    "rollup": "^4.5.0",
+    "rollup": "^4.6.1",
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-css-only": "^4.5.2",
     "rollup-plugin-livereload": "^2.0.5",
