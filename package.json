@@ -21,7 +21,7 @@
     "@testing-library/svelte": "^4.0.5",
     "@tsconfig/svelte": "^5.0.2",
     "@vitest/coverage-v8": "^0.34.6",
-    "@vitest/ui": "^0.34.6",
+    "@vitest/ui": "^0.34.7",
     "jsdom": "^23.0.1",
     "leaflet": "^1.9.4",
     "rollup": "^4.6.1",
