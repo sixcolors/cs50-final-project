@@ -82,7 +82,7 @@
                     )} km from ${userLocationPlaceName}.</p>`
                   : ""
           }
-          <p>Started on ${fire.startdate}<br>
+          ${ fire.startdate ? `<p>Started on ${fire.startdate}<br>` : '<p>Unknown start date<br>' }
           ${fire.agency.toUpperCase()} is in charge<br>
           ${fire.hectares} hectares burned<br>
           Stage of control: ${stageOfControl}</p>`
@@ -152,7 +152,7 @@
                         const fire: Fire = {} as Fire;
                         for (let i = 0; i < headers.length; i++) {
                             const value = values[i]?.trim();
-                            if (!isNaN(value as any)) {
+                            if (value && !isNaN(value as any)) {
                                 fire[headers[i]] = parseFloat(value);
                             } else {
                                 fire[headers[i]] = value;
