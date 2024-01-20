@@ -182,7 +182,7 @@
         /*the container must be positioned relative:*/
         position: relative;
         display: inline-block;
-        width: 300px;
+        max-width: 300px;
     }
 
     input {
@@ -213,7 +213,7 @@
         margin: 0;
         padding: 0;
         z-index: 999999;
-        width: 297px;
+        width: 100%;
         border: 1px solid #ddd;
         background-color: #ddd;
     }
