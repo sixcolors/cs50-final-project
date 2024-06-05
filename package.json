@@ -34,7 +34,7 @@
     "svelte-check": "^3.7.1",
     "svelte-leafletjs": "^0.10.0",
     "svelte-preprocess": "^5.1.4",
-    "tslib": "^2.6.2",
+    "tslib": "^2.6.3",
     "typescript": "^5.4.5",
     "vitest": "^1.5.2"
   },
