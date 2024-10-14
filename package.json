@@ -39,6 +39,6 @@
     "vitest": "^1.5.2"
   },
   "dependencies": {
-    "sirv-cli": "^2.0.2"
+    "sirv-cli": "^3.0.0"
   }
 }
