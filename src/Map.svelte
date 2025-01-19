@@ -114,7 +114,7 @@
         );
 
         // add layer control
-        const mapLegend: L.LegengControl = L.control
+        const mapLegend: L.LegendControl = L.control
             .layers(
                 {},
                 {

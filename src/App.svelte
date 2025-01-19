@@ -66,23 +66,23 @@
 		<div class="legend">
 			<h3>Fire Danger Ratings:</h3>
 			<div class="legend-item">
-				<div class="legend-color legend-color-low" />
+				<div class="legend-color legend-color-low"></div>
 				<div class="legend-label">Low</div>
 			</div>
 			<div class="legend-item">
-				<div class="legend-color legend-color-moderate" />
+				<div class="legend-color legend-color-moderate"></div>
 				<div class="legend-label">Moderate</div>
 			</div>
 			<div class="legend-item">
-				<div class="legend-color legend-color-high" />
+				<div class="legend-color legend-color-high"></div>
 				<div class="legend-label">High</div>
 			</div>
 			<div class="legend-item">
-				<div class="legend-color legend-color-very-high" />
+				<div class="legend-color legend-color-very-high"></div>
 				<div class="legend-label">Very High</div>
 			</div>
 			<div class="legend-item">
-				<div class="legend-color legend-color-extreme" />
+				<div class="legend-color legend-color-extreme"></div>
 				<div class="legend-label">Extreme</div>
 			</div>
 		</div>
