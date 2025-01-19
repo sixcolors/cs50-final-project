@@ -1,20 +1,21 @@
 import { render, fireEvent, screen, cleanup } from '@testing-library/svelte';
 import { describe, expect, it, afterEach } from 'vitest';
 import App from '../src/Locator.svelte';
+import type { SvelteComponent } from 'svelte';
 
 describe('Locator.svelte', () => {
   // TODO: @testing-library/svelte claims to add this automatically but it doesn't work without explicit afterEach
   afterEach(() => cleanup())
 
   it('renders without errors', () => {
-    const { container } = render(App);
+    const { container } = render(App as unknown as new () => SvelteComponent, { target: document.body });
     expect(container).toBeTruthy();
     expect(container.innerHTML).toContain('Search Location');
     expect(container.innerHTML).toMatchSnapshot();
   });
 
   it('find location', async () => {
-    render(App);
+    render(App as unknown as new () => SvelteComponent, { target: document.body });
     const input: HTMLInputElement = screen.getAllByPlaceholderText('Search Location')[0] as HTMLInputElement;
     const button = screen.getAllByDisplayValue('Submit')[0];
     await fireEvent.input(input, { target: { value: 'Toronto' } });

@@ -1,15 +1,14 @@
-import { render, fireEvent, screen, cleanup } from '@testing-library/svelte';
+import { render, cleanup } from '@testing-library/svelte';
 import { describe, expect, it, afterEach } from 'vitest';
 import App from '../src/App.svelte';
+import type { SvelteComponent } from 'svelte';
 
 describe('App.svelte', () => {
   // TODO: @testing-library/svelte claims to add this automatically but it doesn't work without explicit afterEach
-  afterEach(() => cleanup())
+  afterEach(() => cleanup());
 
-  it('renders without errors', () => {
-    const { container } = render(App);
+    const { container } = render(App as unknown as new () => SvelteComponent, { target: document.body });
     expect(container).toBeTruthy();
     expect(container.innerHTML).toContain('Canadian Wildfire Map');
     expect(container.innerHTML).toMatchSnapshot();
-  });
 });
