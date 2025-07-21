@@ -18,3 +18,5 @@ updates:
       - dependency-name: "*"
         # ignore all major updates
         update-types: ["version-update:semver-major"]
+      # Don't update svelte-leafletjs at all
+      - dependency-name: "svelte-leafletjs"
