@@ -8,6 +8,14 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    coverage:  { reporter: ['lcov'] },
+    coverage: {
+      reporter: ['lcov'],
+      exclude: [
+        'public/**',
+        'svelte.config.js',
+        'rollup.config.js',
+        'src/main.ts',
+      ],
+    },
   },
 })
