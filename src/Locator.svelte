@@ -13,6 +13,10 @@
     let hiLiteIndex: number | null = null;
 
     export const filterLocations = (): void => {
+        if (!searchInput.value.trim()) {
+            filteredLocations = [];
+            return;
+        }
         fetch(
             `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
                 searchInput.value

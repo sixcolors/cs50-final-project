@@ -1,4 +1,4 @@
-import { render, fireEvent, screen, cleanup, waitFor } from '@testing-library/svelte';
+import { render, fireEvent, screen, cleanup } from '@testing-library/svelte';
 import { describe, expect, it, afterEach, vi } from 'vitest';
 import App from '../src/Locator.svelte';
 import type { SvelteComponent } from 'svelte';
@@ -35,7 +35,10 @@ describe('Locator.svelte', () => {
     const button = screen.getAllByDisplayValue('Submit')[0];
     await fireEvent.input(input, { target: { value: 'Toronto' } });
     expect(await screen.findByText('toronto')).toBeInstanceOf(HTMLLIElement);
+    vi.useFakeTimers();
     await fireEvent.click(button);
-    await waitFor(() => expect(input.value).toBe(''), { timeout: 2000 });
+    await vi.runAllTimersAsync();
+    expect(input.value).toBe('');
+    vi.useRealTimers();
   });
 });

@@ -90,7 +90,7 @@
                     )} km from ${escapeHtml(userLocationPlaceName)}.</p>`
                   : ""
           }
-          ${ fire.situation_report_date ? `<p>Started on ${escapeHtml(fire.situation_report_date)}<br>` : '<p>Unknown start date<br>' }
+          ${ fire.situation_report_date ? `<p>Last reported: ${escapeHtml(fire.situation_report_date)}<br>` : '<p>No report date available<br>' }
           ${escapeHtml(fire.agency_code.toUpperCase())} is in charge<br>
           ${fire.fire_size} hectares burned<br>
           Stage of control: ${escapeHtml(stageOfControl)}</p>`
@@ -146,8 +146,17 @@
             })
             .then((data: any) => {
                 // parse GeoJSON FeatureCollection from WFS
+                // fall back to geometry.coordinates ([lon, lat]) if properties lack valid lat/lon
                 fires = (data.features ?? [])
-                    .map((feature: any) => feature.properties as Fire)
+                    .map((feature: any) => {
+                        const props = feature.properties as Fire;
+                        const coords = feature.geometry?.coordinates;
+                        return {
+                            ...props,
+                            latitude: isFinite(props.latitude) ? props.latitude : (Array.isArray(coords) ? coords[1] : NaN),
+                            longitude: isFinite(props.longitude) ? props.longitude : (Array.isArray(coords) ? coords[0] : NaN),
+                        };
+                    })
                     .filter((fire: Fire) => isFinite(fire.latitude) && isFinite(fire.longitude));
 
                 // get location from browser

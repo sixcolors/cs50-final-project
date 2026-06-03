@@ -30,7 +30,7 @@
     });
 </script>
 
-<li class="autocomplete-items" class:autocomplete-active={highlighted} on:click role="option" on:keydown aria-selected="false">
+<li class="autocomplete-items" class:autocomplete-active={highlighted} on:click role="option" on:keydown aria-selected={highlighted}>
     {itemLabel}
 </li>
 
