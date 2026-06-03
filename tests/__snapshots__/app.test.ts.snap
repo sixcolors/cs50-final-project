@@ -6,11 +6,12 @@ exports[`App.svelte > should render the component correctly 1`] = `
 			With point icons for Active Wildfires and Fire Perimeter Estimate
 			Polygons indicating the affected areas, users can quickly see where
 			wildfires are currently burning and how they are spreading.</p> <div class="legend svelte-1v1t9hz"><h3 class="svelte-1v1t9hz">Fire Status:</h3> <div class="legend-range legend-range-color-out-of-control svelte-1v1t9hz"><div class="legend-label svelte-1v1t9hz">Out of control</div> <div class="legend-range-item svelte-1v1t9hz">0 to 100 Ha</div> <div class="legend-range-item svelte-1v1t9hz">101 to 1000 Ha</div> <div class="legend-range-item svelte-1v1t9hz">&gt; 1000 Ha</div></div> <div class="legend-range legend-range-color-being-held svelte-1v1t9hz"><div class="legend-label svelte-1v1t9hz">Being held</div> <div class="legend-range-item svelte-1v1t9hz">0 to 100 Ha</div> <div class="legend-range-item svelte-1v1t9hz">101 to 1000 Ha</div> <div class="legend-range-item svelte-1v1t9hz">&gt; 1000 Ha</div></div> <div class="legend-range legend-range-color-under-control svelte-1v1t9hz"><div class="legend-label svelte-1v1t9hz">Under control</div> <div class="legend-range-item svelte-1v1t9hz">0 to 100 Ha</div> <div class="legend-range-item svelte-1v1t9hz">101 to 1000 Ha</div> <div class="legend-range-item svelte-1v1t9hz">&gt; 1000 Ha</div></div> <div class="legend-range legend-range-color-other svelte-1v1t9hz"><div class="legend-label svelte-1v1t9hz">Other</div> <div class="legend-range-item svelte-1v1t9hz">0 to 100 Ha</div> <div class="legend-range-item svelte-1v1t9hz">101 to 1000 Ha</div> <div class="legend-range-item svelte-1v1t9hz">&gt; 1000 Ha</div></div></div> <h2>Search for Locations and Access Detailed Information</h2> <p>Users can search for a location by entering a city name or postal
-			code in the search bar. The map will then zoom to that location,
-			allowing users to see if any wildfires are burning nearby. By
-			clicking on a fire icon, users can access more detailed information
-			about that specific wildfire, including its size, location, and
-			status.</p> <h2>Stay Informed About Fire Danger Ratings</h2> <p>In addition to wildfire information, the Canadian Wildfire Map also
+			code in the search bar. Location lookup is powered by
+			<a href="https://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>.
+			The map will then zoom to that location, allowing users to see if
+			any wildfires are burning nearby. By clicking on a fire icon, users
+			can access more detailed information about that specific wildfire,
+			including its size, location, and status.</p> <h2>Stay Informed About Fire Danger Ratings</h2> <p>In addition to wildfire information, the Canadian Wildfire Map also
 			provides users with Current Fire Danger Polygons, which indicate the
 			current fire danger rating for each region. Fire Danger is a
 			relative index of how easy it is to ignite vegetation, how difficult
