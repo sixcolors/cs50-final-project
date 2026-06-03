@@ -1,4 +1,4 @@
-import { render, fireEvent, screen, cleanup } from '@testing-library/svelte';
+import { render, fireEvent, screen, cleanup, waitFor } from '@testing-library/svelte';
 import { describe, expect, it, afterEach, vi } from 'vitest';
 import App from '../src/Locator.svelte';
 import type { SvelteComponent } from 'svelte';
@@ -20,6 +20,8 @@ describe('Locator.svelte', () => {
   it('find location', async () => {
     vi.stubGlobal('fetch', vi.fn(() => {
       return Promise.resolve({
+        ok: true,
+        status: 200,
         json: () => Promise.resolve([{
           display_name: 'toronto',
           lat: '43.6532',
@@ -32,10 +34,8 @@ describe('Locator.svelte', () => {
     const input: HTMLInputElement = screen.getAllByPlaceholderText('Search Location')[0] as HTMLInputElement;
     const button = screen.getAllByDisplayValue('Submit')[0];
     await fireEvent.input(input, { target: { value: 'Toronto' } });
-    await new Promise(r => setTimeout(r, 100));
-    expect(screen.getByText('toronto')).toBeInstanceOf(HTMLLIElement);
+    expect(await screen.findByText('toronto')).toBeInstanceOf(HTMLLIElement);
     await fireEvent.click(button);
-    await new Promise(r => setTimeout(r, 1200));
-    expect(input.value).toBe(''); // input should be cleared
+    await waitFor(() => expect(input.value).toBe(''), { timeout: 2000 });
   });
 });

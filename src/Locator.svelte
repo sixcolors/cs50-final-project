@@ -18,7 +18,10 @@
                 searchInput.value
             )}&format=json&countrycodes=ca&limit=5`
         )
-            .then((response) => response.json())
+            .then((response) => {
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return response.json();
+            })
             .then((data) => {
                 filteredLocations = Array.isArray(data) ? data.map((item: any) => item.display_name) : [];
             })
@@ -57,11 +60,18 @@
                     inputValue
                 )}&format=json&countrycodes=ca&limit=1`
             )
-                .then((response) => response.json())
+                .then((response) => {
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    return response.json();
+                })
                 .then((data) => {
                     if (Array.isArray(data) && data.length > 0) {
                         const lat = parseFloat(data[0].lat);
                         const lon = parseFloat(data[0].lon);
+                        if (!isFinite(lat) || !isFinite(lon)) {
+                            alert("No such location found.");
+                            return;
+                        }
                         const placeName = data[0].display_name;
                         onLocationFound(lat, lon, placeName);
                     } else {

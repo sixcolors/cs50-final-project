@@ -10,7 +10,7 @@
 
 ## Description:
 
-This project is my CS50 Final Project. As the wildfire season in Canada worsens each year, I developed a web app that allows users to track the current wildfires in Canada. The app utilizes the NRCAN Open Data API to retrieve the latest information on wildfires in Canada.
+This project is my CS50 Final Project. As the wildfire season in Canada worsens each year, I developed a web app that allows users to track the current wildfires in Canada. The app retrieves current wildfire data from the CWFIS WFS (Web Feature Service) endpoint provided by Natural Resources Canada.
 
 The wildfire data is displayed on an interactive web map using Leaflet and OpenStreetMap.
 

@@ -35,6 +35,15 @@
 
     let fireMarkerLayerGroup: L.LayerGroup;
 
+    function escapeHtml(str: string): string {
+        return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
     // addMarkers adds markers to the fireMarkerLayerGroup
     // old markers are cleared first
     function addMarkers(fires: Fire[]) {
@@ -73,18 +82,18 @@
 
             L.marker([fire.latitude, fire.longitude])
                 .bindPopup(
-                    `<h4>Wildfire ${fire.agency_fire_id}</h4>
+                    `<h4>Wildfire ${escapeHtml(fire.agency_fire_id)}</h4>
           ${
               typeof distance === "number"
                   ? `<p>${Math.round(
                         distance / 1000
-                    )} km from ${userLocationPlaceName}.</p>`
+                    )} km from ${escapeHtml(userLocationPlaceName)}.</p>`
                   : ""
           }
-          ${ fire.situation_report_date ? `<p>Started on ${fire.situation_report_date}<br>` : '<p>Unknown start date<br>' }
-          ${fire.agency_code.toUpperCase()} is in charge<br>
+          ${ fire.situation_report_date ? `<p>Started on ${escapeHtml(fire.situation_report_date)}<br>` : '<p>Unknown start date<br>' }
+          ${escapeHtml(fire.agency_code.toUpperCase())} is in charge<br>
           ${fire.fire_size} hectares burned<br>
-          Stage of control: ${stageOfControl}</p>`
+          Stage of control: ${escapeHtml(stageOfControl)}</p>`
                 )
                 .addTo(fireMarkerLayerGroup);
             if (typeof distance === "number" && distance < 100000) {
@@ -129,40 +138,17 @@
 
         // download wildfire data
         fetch(
-            "https://geoserver.cwfif.nrcan.gc.ca/geoserver/wfs?service=WFS&version=2.0.1&request=GetFeature&outputFormat=csv&typeNames=public:cwfif_national_activefires&sortBy=agency_code+A,record_start+D&CQL_FILTER=now()%3E=record_start%20AND%20now()%3C=record_end%20AND%20fire_was_prescribed%3C1"
+            "https://geoserver.cwfif.nrcan.gc.ca/geoserver/wfs?service=WFS&version=2.0.1&request=GetFeature&outputFormat=application%2Fjson&typeNames=public:cwfif_national_activefires&sortBy=agency_code+A,record_start+D&CQL_FILTER=now()%3E=record_start%20AND%20now()%3C=record_end%20AND%20fire_was_prescribed%3C1"
         )
             .then((response) => {
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                return response.text();
+                return response.json();
             })
-            .then((data) => {
-                // parse csv
-                // header: agency, firename, lat, lon, startdate, hectares, stage_of_control, timezone
-                const rows = data.split("\n");
-                const headers = rows[0].split(",");
-                // trim whitespace
-                for (let i = 0; i < headers.length; i++) {
-                    headers[i] = headers[i].trim();
-                }
-                fires = rows
-                    .slice(1)
-                    .map((row) => {
-                        if (row.trim() === "") {
-                            return undefined;
-                        }
-                        const values = row.split(",");
-                        const fire: Fire = {} as Fire;
-                        for (let i = 0; i < headers.length; i++) {
-                            const value = values[i]?.trim();
-                            if (value && !isNaN(value as any)) {
-                                fire[headers[i]] = parseFloat(value);
-                            } else {
-                                fire[headers[i]] = value;
-                            }
-                        }
-                        return fire;
-                    })
-                    .filter((fire) => fire !== undefined && isFinite(fire.latitude) && isFinite(fire.longitude)) as Fire[];
+            .then((data: any) => {
+                // parse GeoJSON FeatureCollection from WFS
+                fires = (data.features ?? [])
+                    .map((feature: any) => feature.properties as Fire)
+                    .filter((fire: Fire) => isFinite(fire.latitude) && isFinite(fire.longitude));
 
                 // get location from browser
                 navigator.geolocation.getCurrentPosition(
@@ -206,6 +192,9 @@
                         addMarkers(fires);
                     }
                 );
+            })
+            .catch((err) => {
+                console.error("Failed to load wildfire data:", err);
             });
     });
 

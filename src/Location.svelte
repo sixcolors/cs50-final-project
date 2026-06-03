@@ -31,7 +31,7 @@
 </script>
 
 <li class="autocomplete-items" class:autocomplete-active={highlighted} on:click role="option" on:keydown aria-selected="false">
-    {@html itemLabel}
+    {itemLabel}
 </li>
 
 <style>
