@@ -14,13 +14,13 @@
 
     export const filterLocations = (): void => {
         fetch(
-            `https://geogratis.gc.ca/services/geolocation/en/autocomplete?q=${encodeURIComponent(
+            `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
                 searchInput.value
-            )}`
+            )}&format=json&countrycodes=ca&limit=5`
         )
             .then((response) => response.json())
             .then((data) => {
-                filteredLocations = data.suggestions;
+                filteredLocations = Array.isArray(data) ? data.map((item: any) => item.display_name) : [];
             })
             .catch((error) => console.log(error));
     };
@@ -53,36 +53,17 @@
         if (inputValue) {
             isFetching = true;
             fetch(
-                `https://geogratis.gc.ca/services/geolocation/en/locate?q=${encodeURIComponent(
+                `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
                     inputValue
-                )}`
+                )}&format=json&countrycodes=ca&limit=1`
             )
                 .then((response) => response.json())
                 .then((data) => {
-                    let locationType: string;
-                    let locationQualifier: string;
-                    const postalCodeRegex = new RegExp(/^[A-Za-z]\d[A-Za-z]$/);
-                    if (postalCodeRegex.test(inputValue)) {
-                        locationType =
-                            "ca.gc.nrcan.geoloc.data.model.PostalCode";
-                        locationQualifier = "INTERPOLATED_CENTROID";
-                    } else {
-                        locationType = "ca.gc.nrcan.geoloc.data.model.Geoname";
-                        locationQualifier = "LOCATION";
-                    }
-                    data = data.filter(
-                        (location: { type: string; qualifier: string; }) =>
-                            location.type === locationType &&
-                            location.qualifier === locationQualifier
-                    );
-                    if (data.length > 0) {
-                        let geometry = data[0].geometry;
-                        if (geometry.type === "Point") {
-                            let lat = geometry.coordinates[1];
-                            let lon = geometry.coordinates[0];
-                            let placeName = data[0].title;
-                            onLocationFound(lat, lon, placeName);
-                        }
+                    if (Array.isArray(data) && data.length > 0) {
+                        const lat = parseFloat(data[0].lat);
+                        const lon = parseFloat(data[0].lon);
+                        const placeName = data[0].display_name;
+                        onLocationFound(lat, lon, placeName);
                     } else {
                         alert("No such location found.");
                     }

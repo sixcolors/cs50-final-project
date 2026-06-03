@@ -18,7 +18,7 @@ The app prompts the user for their location and automatically zooms to that loca
 
 When a user clicks on a wildfire marker, a popup displays the wildfire name, the agency in charge, the fire size and status, and the distance between the wildfire and the user's location.
 
-Additionally, users can search for specific locations using the search input. The app utilizes the NRCAN Geolocation Service to obtain the geographic coordinates of the named feature. The map then zooms to the searched location and displays the wildfires in that area.
+Additionally, users can search for specific locations using the search input. The app utilizes the OpenStreetMap Nominatim geocoding service to obtain the geographic coordinates of the named feature. The map then zooms to the searched location and displays the wildfires in that area.
 
 ### Components and Their Functions
 
@@ -37,14 +37,14 @@ For the map functionality, I selected Leaflet due to its simplicity and user-fri
 
 To provide map tiles, I utilized OpenStreetMap, which is open-source, widely supported by the community, and free of charge.
 
-To retrieve wildfire data, I employed the NRCAN Open Data API because it offers extensive data, including information about the current wildfires in Canada, and it is freely accessible.
+To retrieve wildfire data, I use the CWFIS WFS (Web Feature Service) endpoint, which provides current wildfire data for Canada and is freely accessible. The app previously used a CSV download from the CWFIS Datamart, but that endpoint was decommissioned, so it was updated to use the WFS endpoint.
 
 Using a web map to display the wildfires allows users to visualize the wildfires in relation to their own location, enabling them to assess their proximity to the fires and make informed decisions regarding their safety. To emphasize wildfires within close range (within 100 km), I added a header to the map displaying the number of wildfires within 100 km of the user's location.
 
 Overall, this project was an enjoyable learning experience. I gained valuable knowledge about Svelte and TypeScript, although I encountered challenges with nesting Svelte components and implementing message passing between them. Additionally, integrating the Leaflet map with Svelte presented difficulties since the chosen svelte-leafletjs library lacked certain methods and events. I had to handle them within onMount and other handlers by directly accessing the Leaflet map object.
 
 ## Tech Stack
-The app is built using Svelte with TypeScript, Leaflet, and OpenStreetMap. It relies on the NRCAN Open Data for retrieving current wildfire data in Canada and the NRCAN Web Mapping Service for wildfire boundaries and point location icons. The NRCAN Geolocation Service is used to obtain geographic coordinates for named features.
+The app is built using Svelte with TypeScript, Leaflet, and OpenStreetMap. It relies on the CWFIS WFS (Web Feature Service) for retrieving current wildfire data in Canada and the NRCAN Web Mapping Service for wildfire boundaries and point location icons. The OpenStreetMap Nominatim geocoding service is used to obtain geographic coordinates for named features.
 
 ## How to Run the App
 1. Clone the repo
@@ -127,7 +127,8 @@ git push origin <branch name>
 This project is licensed under the MIT License. For details, see the LICENSE.md file.
 
 ## Acknowledgements
-* [CWFIS Datamart](https://cwfis.cfs.nrcan.gc.ca/datamart)
+* [CWFIS WFS](https://geoserver.cwfif.nrcan.gc.ca/geoserver/wfs)
+* [OpenStreetMap Nominatim](https://nominatim.openstreetmap.org/)
 * [NRCAN Web Mapping Service](https://cwfis.cfs.nrcan.gc.ca/geoserver/public/wms?service=WMS&request=getcapabilities&version=1.1.0&layers=activefires_current&legend_format=image/png&feature_info_type=text/plain)
 * [NRCAN Geolocation Service](https://geogratis.gc.ca/services/geolocation/en/locate?q=)
 * [Leaflet](https://leafletjs.com/)

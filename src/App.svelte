@@ -46,11 +46,12 @@
 		<h2>Search for Locations and Access Detailed Information</h2>
 		<p>
 			Users can search for a location by entering a city name or postal
-			code in the search bar. The map will then zoom to that location,
-			allowing users to see if any wildfires are burning nearby. By
-			clicking on a fire icon, users can access more detailed information
-			about that specific wildfire, including its size, location, and
-			status.
+			code in the search bar. Location lookup is powered by
+			<a href="https://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>.
+			The map will then zoom to that location, allowing users to see if
+			any wildfires are burning nearby. By clicking on a fire icon, users
+			can access more detailed information about that specific wildfire,
+			including its size, location, and status.
 		</p>
 		<h2>Stay Informed About Fire Danger Ratings</h2>
 		<p>

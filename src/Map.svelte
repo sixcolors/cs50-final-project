@@ -17,14 +17,13 @@
     let firesNearYou = -1;
 
     interface Fire {
-        agency: string;
-        firename: string;
-        lat: number;
-        lon: number;
-        startdate: string;
-        hectares: number;
-        stage_of_control: string;
-        timezone: string;
+        agency_code: string;
+        agency_fire_id: string;
+        latitude: number;
+        longitude: number;
+        situation_report_date: string;
+        fire_size: number;
+        stage_of_control_status: string;
         [key: string]: any;
     }
 
@@ -49,13 +48,13 @@
                 distance = calculateDistance(
                     userLocation[0],
                     userLocation[1],
-                    fire.lat,
-                    fire.lon
+                    fire.latitude,
+                    fire.longitude
                 );
             }
             let stageOfControl: string;
             // Possible values for stage of control include: OC (Out of Control), BH (Being Held), UC (Under Control), EX (Out).
-            switch (fire.stage_of_control) {
+            switch (fire.stage_of_control_status) {
                 case "OC":
                     stageOfControl = "Out of Control";
                     break;
@@ -72,9 +71,9 @@
                     stageOfControl = "Unknown";
             }
 
-            L.marker([fire.lat, fire.lon])
+            L.marker([fire.latitude, fire.longitude])
                 .bindPopup(
-                    `<h4>Wildfire ${fire.firename}</h4>
+                    `<h4>Wildfire ${fire.agency_fire_id}</h4>
           ${
               typeof distance === "number"
                   ? `<p>${Math.round(
@@ -82,9 +81,9 @@
                     )} km from ${userLocationPlaceName}.</p>`
                   : ""
           }
-          ${ fire.startdate ? `<p>Started on ${fire.startdate}<br>` : '<p>Unknown start date<br>' }
-          ${fire.agency.toUpperCase()} is in charge<br>
-          ${fire.hectares} hectares burned<br>
+          ${ fire.situation_report_date ? `<p>Started on ${fire.situation_report_date}<br>` : '<p>Unknown start date<br>' }
+          ${fire.agency_code.toUpperCase()} is in charge<br>
+          ${fire.fire_size} hectares burned<br>
           Stage of control: ${stageOfControl}</p>`
                 )
                 .addTo(fireMarkerLayerGroup);
@@ -130,9 +129,12 @@
 
         // download wildfire data
         fetch(
-            "https://cwfis.cfs.nrcan.gc.ca/downloads/activefires/activefires.csv"
+            "https://geoserver.cwfif.nrcan.gc.ca/geoserver/wfs?service=WFS&version=2.0.1&request=GetFeature&outputFormat=csv&typeNames=public:cwfif_national_activefires&sortBy=agency_code+A,record_start+D&CQL_FILTER=now()%3E=record_start%20AND%20now()%3C=record_end%20AND%20fire_was_prescribed%3C1"
         )
-            .then((response) => response.text())
+            .then((response) => {
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return response.text();
+            })
             .then((data) => {
                 // parse csv
                 // header: agency, firename, lat, lon, startdate, hectares, stage_of_control, timezone
@@ -160,7 +162,7 @@
                         }
                         return fire;
                     })
-                    .filter((fire) => fire !== undefined) as Fire[];
+                    .filter((fire) => fire !== undefined && isFinite(fire.latitude) && isFinite(fire.longitude)) as Fire[];
 
                 // get location from browser
                 navigator.geolocation.getCurrentPosition(
