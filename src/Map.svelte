@@ -91,8 +91,8 @@
                   : ""
           }
           ${ fire.situation_report_date ? `<p>Last reported: ${escapeHtml(fire.situation_report_date)}<br>` : '<p>No report date available<br>' }
-          ${escapeHtml(fire.agency_code.toUpperCase())} is in charge<br>
-          ${fire.fire_size} hectares burned<br>
+          ${escapeHtml(String(fire.agency_code ?? '').toUpperCase())} is in charge<br>
+          ${escapeHtml(String(fire.fire_size ?? ''))} hectares burned<br>
           Stage of control: ${escapeHtml(stageOfControl)}</p>`
                 )
                 .addTo(fireMarkerLayerGroup);

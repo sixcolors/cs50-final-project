@@ -15,6 +15,7 @@
     export const filterLocations = (): void => {
         if (!searchInput.value.trim()) {
             filteredLocations = [];
+            hiLiteIndex = null;
             return;
         }
         fetch(

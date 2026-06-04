@@ -8,6 +8,7 @@ describe('Locator.svelte', () => {
   afterEach(() => {
     cleanup();
     vi.unstubAllGlobals();
+    vi.useRealTimers();
   });
 
   it('renders without errors', () => {
@@ -39,6 +40,5 @@ describe('Locator.svelte', () => {
     await fireEvent.click(button);
     await vi.runAllTimersAsync();
     expect(input.value).toBe('');
-    vi.useRealTimers();
   });
 });
