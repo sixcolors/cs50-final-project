@@ -153,8 +153,8 @@
                         const coords = feature.geometry?.coordinates;
                         return {
                             ...props,
-                            latitude: isFinite(props.latitude) ? props.latitude : (Array.isArray(coords) ? coords[1] : NaN),
-                            longitude: isFinite(props.longitude) ? props.longitude : (Array.isArray(coords) ? coords[0] : NaN),
+                            latitude: Number.isFinite(Number(props.latitude)) ? Number(props.latitude) : (Array.isArray(coords) ? Number(coords[1]) : NaN),
+                            longitude: Number.isFinite(Number(props.longitude)) ? Number(props.longitude) : (Array.isArray(coords) ? Number(coords[0]) : NaN),
                         };
                     })
                     .filter((fire: Fire) => isFinite(fire.latitude) && isFinite(fire.longitude));
