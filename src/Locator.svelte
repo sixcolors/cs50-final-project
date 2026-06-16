@@ -84,7 +84,7 @@
                     }
                 })
                 .catch((error) => console.log(error))
-                .finally(() => {
+                .then(() => {
                     isFetching = false;
                 });
             setTimeout(clearInput, 1000);
