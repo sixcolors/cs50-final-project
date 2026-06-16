@@ -93,19 +93,11 @@
         }
     };
 
-    const makeMatchBold = (str: string): string => {
-        let matched = str.substring(0, inputValue.length);
-        let makeBold = `<strong>${matched}</strong>`;
-        let boldedMatch = str.replace(matched, makeBold);
-        return boldedMatch;
-    };
-
     const removeBold = (str: string): string => {
         return str.replace(/<(.)*?>/g, "");
     };
 
     /* NAVIGATING OVER THE LIST OF LOCATIONS W HIGHLIGHTING */
-    let hiLitedLocation: string;
     const navigateList = (e: KeyboardEvent): void => {
         if (
             e.key === "ArrowDown" &&
