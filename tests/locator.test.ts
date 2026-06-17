@@ -102,4 +102,80 @@ describe('Locator.svelte', () => {
 
     expect(input.value).toBe('');
   });
+
+  it('handles failed autocomplete fetch without rendering suggestions', async () => {
+    const logMock = vi.spyOn(console, 'log').mockImplementation(() => undefined);
+
+    vi.stubGlobal('fetch', vi.fn((input: RequestInfo | URL) => {
+      const url = typeof input === 'string' ? input : input.toString();
+
+      if (url.includes('limit=5')) {
+        return Promise.resolve({
+          ok: false,
+          status: 500,
+          json: () => Promise.resolve([]),
+        });
+      }
+
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve([]),
+      });
+    }));
+
+    render(App as unknown as new () => SvelteComponent, { target: document.body });
+    const input = screen.getByPlaceholderText('Search Location') as HTMLInputElement;
+
+    await fireEvent.input(input, { target: { value: 'Toronto' } });
+    await Promise.resolve();
+
+    expect(logMock).toHaveBeenCalled();
+    expect(screen.queryByRole('listitem')).toBeNull();
+    logMock.mockRestore();
+  });
+
+  it('alerts when geocoding returns no results', async () => {
+    const alertMock = vi.fn();
+    vi.stubGlobal('alert', alertMock);
+
+    vi.stubGlobal('fetch', vi.fn(() => {
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve([]),
+      });
+    }));
+
+    render(App as unknown as new () => SvelteComponent, { target: document.body });
+    const input = screen.getByPlaceholderText('Search Location') as HTMLInputElement;
+    const button = screen.getByDisplayValue('Submit');
+
+    await fireEvent.input(input, { target: { value: 'Nowhere' } });
+    vi.useFakeTimers();
+    await fireEvent.click(button);
+    await vi.runAllTimersAsync();
+
+    expect(alertMock).toHaveBeenCalledWith('No such location found.');
+  });
+
+  it('ignores unrelated key presses during navigation', async () => {
+    render(App as unknown as new () => SvelteComponent, { target: document.body });
+
+    const input = screen.getByPlaceholderText('Search Location') as HTMLInputElement;
+    await fireEvent.input(input, { target: { value: '' } });
+    await fireEvent.keyDown(window, { key: 'Escape' });
+
+    expect(input.value).toBe('');
+  });
+
+  it('returns early on ArrowDown with no suggestions', async () => {
+    render(App as unknown as new () => SvelteComponent, { target: document.body });
+    const input = screen.getByPlaceholderText('Search Location') as HTMLInputElement;
+
+    await fireEvent.input(input, { target: { value: '' } });
+    await fireEvent.keyDown(window, { key: 'ArrowDown' });
+
+    expect(input.value).toBe('');
+  });
 });
