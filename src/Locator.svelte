@@ -57,6 +57,7 @@
         submitValue();
     };
 
+
     const submitValue = async (): Promise<void> => {
         if (inputValue) {
             isFetching = true;
