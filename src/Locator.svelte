@@ -57,36 +57,35 @@
         submitValue();
     };
 
-    const submitValue = (): void => {
+    const submitValue = async (): Promise<void> => {
         if (inputValue) {
             isFetching = true;
-            fetch(
-                `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
-                    inputValue
-                )}&format=json&countrycodes=ca&limit=1`
-            )
-                .then((response) => {
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    return response.json();
-                })
-                .then((data) => {
-                    if (Array.isArray(data) && data.length > 0) {
-                        const lat = parseFloat(data[0].lat);
-                        const lon = parseFloat(data[0].lon);
-                        if (!isFinite(lat) || !isFinite(lon)) {
-                            alert("No such location found.");
-                            return;
-                        }
-                        const placeName = data[0].display_name;
-                        onLocationFound(lat, lon, placeName);
-                    } else {
+            try {
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+                        inputValue
+                    )}&format=json&countrycodes=ca&limit=1`
+                );
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                const data = await response.json();
+                if (Array.isArray(data) && data.length > 0) {
+                    const lat = parseFloat(data[0].lat);
+                    const lon = parseFloat(data[0].lon);
+                    if (!isFinite(lat) || !isFinite(lon)) {
                         alert("No such location found.");
+                        return;
                     }
-                })
-                .catch((error) => console.log(error))
-                .then(() => {
-                    isFetching = false;
-                });
+                    const placeName = data[0].display_name;
+                    onLocationFound(lat, lon, placeName);
+                } else {
+                    alert("No such location found.");
+                }
+            } catch (error) {
+                console.log(error);
+            } finally {
+                isFetching = false;
+            }
             setTimeout(clearInput, 1000);
         } else {
             alert("You didn't type anything.");
