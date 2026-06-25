@@ -34,7 +34,7 @@
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-svelte": "^7.2.3",
     "svelte": "^5.56.4",
-    "svelte-check": "^4.7.0",
+    "svelte-check": "^4.7.1",
     "svelte-leafletjs": "^0.10.0",
     "svelte-preprocess": "^6.0.5",
     "tslib": "^2.8.1",
