@@ -230,17 +230,29 @@
     const wmsFireTileUrl =
         "https://cwfis.cfs.nrcan.gc.ca/geoserver/public/wms?";
     const wmsFireTileLayerOptions: L.TileLayerOptions = {
-        layers: "m3_polygons_current,activefires_current",
+        layers: "public:m3_polygons_current",
         format: "image/png",
         transparent: true,
         legend: "true",
         tms: true,
         attribution:
-            "Canadian Forest Service. 2022. Canadian Wildland Fire Information System (CWFIS), Natural Resources Canada, Canadian Forest Service, Northern Forestry Centre, Edmonton, Alberta. https://cwfis.cfs.nrcan.gc.ca.",
+            "Canadian Forest Service. Canadian Wildland Fire Information System (CWFIS), Natural Resources Canada, Canadian Forest Service, Northern Forestry Centre, Edmonton, Alberta. http://cwfis.cfs.nrcan.gc.ca.",
     };
 
     let tileLayer: L.TileLayer;
     let wmsFireTileLayer: L.TileLayer.WMS;
+
+    const wmsActiveFiresTileUrl =
+        "https://geoserver.cwfif.nrcan.gc.ca/geoserver/wms?";
+    const wmsActiveFiresTileLayerOptions: L.TileLayerOptions = {
+        layers: "public:cwfif_national_activefires",
+        format: "image/png",
+        transparent: true,
+        legend: "true",
+        tms: true,
+    };
+
+    let wmsActiveFiresTileLayer: L.TileLayer.WMS;
 
     function onLocationFound(event: { detail: { lat: number; lon: number; placeName: string; }; }) {
         if (userLocationCircleLayer !== undefined) {
@@ -288,6 +300,12 @@
             wms={true}
             url={wmsFireTileUrl}
             options={wmsFireTileLayerOptions}
+        />
+        <TileLayer
+            bind:this={wmsActiveFiresTileLayer}
+            wms={true}
+            url={wmsActiveFiresTileUrl}
+            options={wmsActiveFiresTileLayerOptions}
         />
     </LeafletMap>
 </div>
